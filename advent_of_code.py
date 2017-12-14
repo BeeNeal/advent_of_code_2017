@@ -32,35 +32,87 @@ y = [823936645345581272695677318513459491834641129844393742672553544439126314399
 #         ind += 1
 
 
-    def halfway_summer(lst):
-    """sums numbers that match the number midpoint steps ahead"""
+# def halfway_summer(lst):
+#     """sums numbers that match the number midpoint steps ahead"""
 
-    # how many steps ahead of current index
-    steps = len(lst)/2
-    summer = 0
-    ind = 0
+#     t = lst[0]
+#     d = [int(i) for i in str(t)]
+#     steps = len(lst)/2
+#     summer = 0
+#     ind = 0
 
-    for i in lst:
-        if ind > (len(lst) - steps - 1):
-            ind = -1 * steps
-            ind += 1
-            if i == lst[(ind + steps)]:
-                summer += i
-        elif i == lst[(ind + steps)]:
-            summer += i
-            ind += 1
-        else:
-            ind += 1
-    return summer
+#     for i in d:
+#         if ind > (len(d) - steps - 1):
+#             ind = -1 * steps
+#             if i == d[(ind + steps)]:
+#                 summer += i
+#                 ind += 1
+#             else:
+#                 ind += 1
+
+#         elif i == d[(ind + steps)]:
+#             summer += i
+#             ind += 1
+
+#         else:
+#             ind += 1
+#     return summer
     
-print halfway_summer([1, 2, 3, 1, 2, 3])
+# print halfway_summer(y)
 
 # pattern needed:
 
 # 0 1 2 3 4 5 6 7 8 9
 
-# if ind > (len(lst) - steps):
-#     ind = -1 * steps
-#     ind += 1
+# use range when want to map indices
+
+def halfway_summer(lst):
+    """sums numbers that match the number midpoint steps ahead"""
+
+    t = lst[0]
+    d = [int(i) for i in str(t)]
+    summer = 0
+
+    for i in range(len(d)):
+        if d[i] == d[int(i + len(d) / 2) % len(d)]:
+            summer += int(d[i])
+    return summer
 
 
+def checksum(filename):
+
+    file_data = open(filename)
+
+    list_of_numbers = []
+    checksum = []
+
+    for line in file_data:
+        line = line.rstrip()
+        numbers = line.split("\t")
+        numbers = [int(num) for num in numbers]
+        list_of_numbers.append(numbers)
+
+    checksum = [(max(lst) - min(lst)) for lst in list_of_numbers]
+    return sum(checksum)
+
+def check_div(filename):
+
+    file_data = open(filename)
+
+    list_of_rows = []
+    checkdiv = []
+
+    for line in file_data:
+        line = line.rstrip()
+        numbers = line.split("\t")
+        numbers = [int(num) for num in numbers]
+        list_of_rows.append(numbers)
+
+        for i in range(len(list_of_rows)):
+            if list_of_rows[i] % list_of_rows[i+1] == 0:
+                checkdiv.append(list_of_rows[i])
+            # elif list_of_rows[-i + 1] % list_of_rows[i] == 0:
+            #     checkdiv.append(list_of_rows[i])
+            else:
+                print "not this time!"
+        return sum(checkdiv)
